@@ -2,12 +2,12 @@ import unittest
 
 
 def cum_sum(l):
-    i = 0
     res = []
-    while i <= len(l):
-        sl = l[:i]
-        res.append(sum(sl))
-        i += 1
+    cur_sum = 0
+    res.append(cur_sum)
+    for i in l:
+        cur_sum += i
+        res.append(cur_sum)
     return res
 
 
