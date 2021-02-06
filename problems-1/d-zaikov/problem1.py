@@ -3,5 +3,5 @@ def cumsum(seq=[]):
     cursum = 0
     for i in seq:
         cursum += i
-        res += [cursum]
+        res.append(cursum)
     return res
