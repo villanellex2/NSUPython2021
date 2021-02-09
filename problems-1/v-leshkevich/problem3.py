@@ -6,3 +6,5 @@ def collatz(number):
         else:
             number = 3 * number + 1
     print(number)
+
+collatz(int(input()))
