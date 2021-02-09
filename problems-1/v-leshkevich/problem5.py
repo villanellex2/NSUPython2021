@@ -14,3 +14,5 @@ def factorization(number):
     if number > 1:
         result.append([number, 1])
     return result
+
+print(factorization(int(input())))
