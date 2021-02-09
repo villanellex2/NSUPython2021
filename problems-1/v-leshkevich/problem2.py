@@ -8,3 +8,6 @@ def crop(_list, a, b):
         else:
             result.append(num)
     return result
+
+a, b = map(int, input().split())
+print(crop(list(map(int, input().split())), a, b))
