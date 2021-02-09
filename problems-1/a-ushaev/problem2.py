@@ -9,7 +9,7 @@ def trim(li, a, b):
             res.append(elem)
     return res
 
-nums = list(map(int, input().split()))
+nums = map(int, input().split())
 a, b = map(int, input().split())
 
 print(trim(nums, a, b))
