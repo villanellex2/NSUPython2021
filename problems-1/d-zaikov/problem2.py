@@ -1,12 +1,16 @@
-def cut(seq=[], a=0, b=0):
-    if b < a:
-        b = a
+def trim(seq, a, b):
     res = []
     for i in seq:
+        t = i
         if i < a:
-            res.append(a)
+            t = a
         elif i > b:
-            res.append(b)
-        else:
-            res.append(i)
+            t = b
+        res.append(t)
     return res
+    
+test_seq = [int(x) for x in input().split()]
+a_test = int(input())
+b_test = int(input())
+print(trim(test_seq, a_test, b_test))   
+   
