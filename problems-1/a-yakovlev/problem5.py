@@ -1,17 +1,16 @@
 def prime_multipliers(num):
+	first_num = num
 	res = []
-	power = 0
-	curr_del = 2
-	while num != 1:
+	for curr_del in range(2, int(num**(1/2)) + 1):
+		power = 0
 		while num % curr_del == 0:
 			num //= curr_del
 			power += 1
 		if power > 0:
 			res.append([curr_del, power])
-			power = 0
-		if curr_del == 2:
-			curr_del += 1
-		else:
-			curr_del += 2
 
-	return res
+	if num != 1: res.append([num, 1])
+	return res 
+
+
+print(prime_multipliers(int(input("Enter some number "))))
