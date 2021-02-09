@@ -9,3 +9,5 @@ def print_green_bottles_text():
         print(number.title() + hanging_text, end=',\n')
         print("{text} one green bottle should accidentally fall,\nThere'll be "
               .format(text="And if" if i < 10 else "If that") + numbers[i] + hanging_text, end='.\n')
+
+print_green_bottles_text()
