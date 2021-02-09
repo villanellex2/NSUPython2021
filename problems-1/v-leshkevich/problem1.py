@@ -5,3 +5,5 @@ def cusum(_list):
         total_sum += num
         result.append(total_sum)
     return result
+
+print(cusum(list(map(int, input().split()))))
