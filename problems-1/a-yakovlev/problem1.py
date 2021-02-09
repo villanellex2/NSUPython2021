@@ -1,10 +1,11 @@
 def sums(seq=[]):
 
 	out = [0]
-	cursum = 0
 
 	for i in seq:
-		cursum += i
-		out.append(cursum)
+		out.append(out[-1] + int(i))
 
 	return out
+
+
+print(sums(input().split()))
