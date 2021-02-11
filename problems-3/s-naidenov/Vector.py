@@ -5,17 +5,20 @@ import math
 class Vector:
 
     def __init__(self, n=1, coordinates=None):
+        self.dimension = n
         if coordinates is None:
             self.vector = [0] * n
         else:
             self.vector = []
-            for c in coordinates:
-                self.vector.append(c)
-        self.dimension = n
-        v_length = len(self.vector)
-        if v_length < self.dimension:
-            delta = self.dimension - v_length
-            self.vector.extend([0] * delta)
+            cord_len = len(coordinates)
+            if self.dimension > cord_len:
+                for c in coordinates:
+                    self.vector.append(c)
+                delta = self.dimension - cord_len
+                self.vector.extend([0] * delta)
+            else:
+                for i in range(0, self.dimension):
+                    self.vector.append(coordinates[i])
 
     def to_string(self):
         return str(self.vector)
@@ -24,7 +27,7 @@ class Vector:
         a = self.vector
         b = v.vector
         res = [x + y for x, y in itertools.zip_longest(a, b, fillvalue=0)]
-        return Vector(self.dimension, res)
+        return Vector(len(res), res)
 
     def sub(self, v):
         a = self.vector

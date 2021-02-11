@@ -7,8 +7,12 @@ class TestVector(unittest.TestCase):
     def test_init(self):
         vector = Vector(3, [4.5, 10])
         vector1 = Vector(4, [4])
+        vector2 = Vector(2, [1, 2, 3, 4])
         self.assertEqual(vector.vector, [4.5, 10, 0])
         self.assertEqual(vector1.vector, [4, 0, 0, 0])
+        self.assertEqual(vector2.vector, [1, 2])
+        vector3 = Vector(4, [])
+        self.assertEqual(vector3.vector, [0, 0, 0, 0])
 
     def test_sum(self):
         vector = Vector(3, [4.5, 10, 56])
@@ -27,6 +31,10 @@ class TestVector(unittest.TestCase):
         vector1 = Vector(4, [4])
 
         self.assertEqual(vector.sum(vector1).vector, [8.5, 10, 0, 0])
+
+        vector = Vector(3, [4.5, 10])
+        vector2 = Vector(2, [1, 2, 3, 4])
+        self.assertEqual(vector2.sum(vector).vector, [5.5, 12, 0])
 
     def test_sub(self):
         vector = Vector(3, [4, 10, 56])
