@@ -9,5 +9,6 @@ def crop(_list, a, b):
             result.append(num)
     return result
 
+numbers = map(int, input().split())
 a, b = map(int, input().split())
-print(crop(list(map(int, input().split())), a, b))
+print(crop(list(numbers), a, b))
