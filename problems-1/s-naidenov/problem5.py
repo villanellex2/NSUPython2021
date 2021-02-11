@@ -18,6 +18,7 @@ def expand_number(n):
     return factors
 
 
-n = int(input("n = "))
+if __name__ == "__main__":
+    n = int(input("n = "))
 
-print(str(expand_number(n)))
+    print(str(expand_number(n)))
