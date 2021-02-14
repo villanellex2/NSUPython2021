@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from os import listdir, stat
 from os.path import isfile, join
 from sys import argv
