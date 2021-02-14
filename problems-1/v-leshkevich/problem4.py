@@ -9,7 +9,7 @@ def print_green_bottles_text():
         print(number.title() + hanging_text.format(s="s" if i != 10 else ''), end=',\n')
         print("{text} one green bottle should accidentally fall,\nThere'll be "
               .format(text="And if" if i < 10 else "If that") + numbers[i] +
-              hanging_text.format(s="s"), end='.\n')
+              hanging_text.format(s="s" if i != 9 else ''), end='.\n')
 
 
 print_green_bottles_text()
