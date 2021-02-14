@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 def cumulative_sum(numbers):
   ans = [0]
   for n in numbers:
