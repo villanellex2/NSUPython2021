@@ -22,4 +22,5 @@ with open(pi_filename) as pi_file:
         position = pi_str.find(i_sequence, position + 1)
 
     print(f'Found {positions_count} results.')
-    print(f'Positions: {" ".join(positions)}{" ..." if positions_count > print_count else "."}')
+    if positions_count > 0:
+        print(f'Positions: {" ".join(positions)}{" ..." if positions_count > print_count else "."}')
