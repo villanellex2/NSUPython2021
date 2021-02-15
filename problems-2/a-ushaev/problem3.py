@@ -13,6 +13,10 @@ if not os.path.exists(args.path):
     print('Path not found', file=sys.stderr)
     sys.exit(-1)
 
+if not os.path.isdir(args.path):
+    print('Path is not a directory', file=sys.stderr)
+    sys.exit(-1)
+
 files = []
 for name in os.listdir(args.path):
     full_path = os.path.join(args.path, name)

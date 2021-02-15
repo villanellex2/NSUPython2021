@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
-with open('pi.txt', 'r') as pi:
-    print('Enter sequence to search for:')
-    seq = input()
+print('Enter sequence to search for:')
+seq = input()
+match = []
+match_cnt = 0
 
+with open('pi.txt', 'r') as pi:
     digits = ''.join(pi.read()[2:].split('\n'))
-    match = []
-    match_cnt = 0
     cur_pos = digits.find(seq, 0)
     while cur_pos != -1:
         if match_cnt < 5:
@@ -15,5 +15,5 @@ with open('pi.txt', 'r') as pi:
         cur_pos += 1
         cur_pos = digits.find(seq, cur_pos)
 
-    print(f'Found {match_cnt} results.')
-    print(f'Positions: {" ".join(map(str, match))} ...')
+print(f'Found {match_cnt} results.')
+print(f'Positions: {" ".join(map(str, match))} ...')
