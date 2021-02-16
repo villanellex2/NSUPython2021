@@ -9,6 +9,6 @@ def seq_in_range(seq, a, b):
 
 	return seq
 
-seq = list(map(lambda x: int(x), input().split()))
+seq = list(map(int, input().split()))
 
 print(seq_in_range(seq, int(input()), int(input())))
