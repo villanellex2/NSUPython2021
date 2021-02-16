@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import itertools
 
 
@@ -19,17 +20,13 @@ class Table:
 
     def set_row(self, row, values):
         i = 0
+        if len(values) > self.columns:
+            raise Exception("Dimension of data is greater than dimension of table")
         for v in values:
-            if i >= self.columns:
-                break
             self.table[row][i] = v
-            i += 1
 
     def insert(self, row, column, value):
         self.table[row][column] = value
-
-    def update(self, row, column, new_value):
-        self.table[row][column] = new_value
 
     def remove(self, row, column):
         self.table[row][column] = 0
@@ -81,9 +78,7 @@ class Table:
         res = Table(self.rows, len(columns))
         i = 0
         for r in self.table:
-            row = []
-            for c in columns:
-                row.append(r[c])
+            row = [c for c in r]
             res.set_row(i, row)
             i += 1
         return res
