@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+from sys import stderr
+
 di = {}
 
 file_path = input()
@@ -18,4 +20,4 @@ try:
 		print(lat, ', '.join(di[lat]), sep=' - ')
 
 except FileNotFoundError:
-	print("File not found")
+	print("File not found", file=stderr)
