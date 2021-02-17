@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+from sys import stderr
+
 try:
 	n = int(input())
 	square = {i: i*i for i in range(1, n+1)}
@@ -13,6 +15,6 @@ try:
 	)
 
 except ValueError:
-	print('You did not enter an integer')
+	print('You did not enter an integer', file=stderr)
 
 
