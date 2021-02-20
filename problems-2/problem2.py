@@ -2,7 +2,7 @@
 
 import re
 
-path = input()
+path = input('Enter path to file.')
 dictionary = {}
 
 try:
