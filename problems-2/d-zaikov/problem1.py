@@ -10,7 +10,7 @@ while True:
             break
 
 print([(i, j, sqrs.index(sqrs[i] + sqrs[j])) 
+        for sqrs in [[m*m for m in range(n + 1)]]
         for i in range(2, n + 1) 
         for j in range(i, n + 1) 
-        for sqrs in [[m*m for m in range(n + 1)]]
         if sqrs[i] + sqrs[j] in sqrs])
