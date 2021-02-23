@@ -11,7 +11,12 @@ def to_collatz_list(a: int) -> list:
     return res
 
 
-inp = int(input())
+inp = input()
+while not inp.isdigit():
+    print("incorrect input, enter integer value", end=": ")
+    inp = input()
+inp = int(inp)
+
 for i in to_collatz_list(inp):
     if i != 1:
         print(str(i), end='->')
