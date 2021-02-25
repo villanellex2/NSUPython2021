@@ -18,9 +18,9 @@ try:
                 if not (word in dictionary):
                     dictionary[word] = []
                 dictionary[word].append(l[0])
-except FileNotFoundError:
-    print("File not found")
-    exit()  
+except IOError as e:
+    print(e)
+    exit()
     
 try:
     with open("dict-out.txt", "w", encoding='utf-8') as f:
@@ -28,6 +28,5 @@ try:
         for t in d:
             words = str(t[1]).strip("[]").replace("'","")
             f.write(f'{t[0]} - {words}\n')
-except:
-    print("File write error")
-    exit()
+except IOError as e:
+    print(e)
