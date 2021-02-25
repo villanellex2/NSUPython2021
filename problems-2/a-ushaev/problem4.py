@@ -7,8 +7,8 @@ match_cnt = 0
 
 with open('pi.txt', 'r') as pi:
     digits = ''.join(pi.read()[2:].split('\n'))
-    cur_pos = digits.find(seq, 0)
-
+    
+cur_pos = digits.find(seq, 0)
 while cur_pos != -1:
     if match_cnt < 5:
         match.append(cur_pos)
