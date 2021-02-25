@@ -16,5 +16,5 @@ try:
                    if os.path.isfile(y)], 
                        key=(lambda x: (-os.stat(x).st_size, x)))
     print([os.path.split(x)[-1] for x in ls])
-except:
-    print('Something wrong with directory path')
+except IOError as e:
+    print(e)
