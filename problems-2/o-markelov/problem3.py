@@ -4,15 +4,13 @@ from os import listdir, stat
 from os.path import isfile, join
 from sys import argv
 
-if len(argv) < 2:
-    print('You haven\'t passed the path argument')
-    exit()
+dir_path = argv[1] if len(argv) > 1 else '.'
 
 try:
     files_info = []
 
-    for filename in listdir(argv[1]):
-        full_filename = join(argv[1], filename)
+    for filename in listdir(dir_path):
+        full_filename = join(dir_path, filename)
         if isfile(full_filename):
             files_info.append((filename, stat(full_filename).st_size))
 
@@ -24,4 +22,4 @@ try:
         print(file_info[0], ' - ', file_info[1], 'bytes')
 
 except OSError as e:
-    print(f'Cannot open "{argv[1]}" ({e.strerror})')
+    print(f'Cannot open "{dir_path}" ({e.strerror})')
