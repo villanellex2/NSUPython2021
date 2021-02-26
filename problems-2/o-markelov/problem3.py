@@ -22,4 +22,4 @@ try:
         print(file_info[0], ' - ', file_info[1], 'bytes')
 
 except OSError as e:
-    print(f'Cannot open "{dir_path}" ({e.strerror})')
+    print(str(e))
