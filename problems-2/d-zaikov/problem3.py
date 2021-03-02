@@ -17,4 +17,4 @@ try:
                        key=(lambda x: (-os.stat(x).st_size, x)))
     print([os.path.split(x)[-1] for x in ls])
 except IOError as e:
-    print(e)
+    print(e, file=sys.stderr)
