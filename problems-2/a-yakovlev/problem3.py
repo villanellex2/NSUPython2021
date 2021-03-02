@@ -19,5 +19,7 @@ try:
 		for name, size in sorted(files, key=itemgetter(1, 0), reverse=True):
 			print(name, size)
 
-except (NotADirectoryError, FileNotFoundError):
-	print('You must specify dir path', file=stderr)
+except (NotADirectoryError):
+	print('You specified not a directory', file=stderr)
+except (FileNotFoundError):
+	print("Can't find the specified file", file=stderr)
