@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-#путь до словаря из примера: res/en_dictionary.txt
-
+# путь до словаря из примера: res/en_dictionary.txt
+from sys import stderr
 def add_to_latin_dict(latin_dict: dict, read_str: str):
     read_str = read_str.replace(" ", "")
     read_str = read_str.replace("\n", "")
@@ -12,6 +12,7 @@ def add_to_latin_dict(latin_dict: dict, read_str: str):
             latin_dict[meaning[i]].append(word)
         else:
             latin_dict[meaning[i]] = [word]
+
 
 print("Enter path to dictionary file: ", end="")
 fileName = input()
@@ -25,10 +26,8 @@ try:
         values = latin.get(key)
         size = len(values)
         for i in range(size):
-            if i == size-1:
                 print(values[i])
             else:
                 print(values[i], end=', ')
-except OSError:
-    from sys import stderr
-    print("Invalid input", file=stderr)
+except OSError as e:
+    print(e, file=stderr)
