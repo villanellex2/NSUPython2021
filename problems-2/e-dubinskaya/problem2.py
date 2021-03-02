@@ -30,4 +30,5 @@ try:
             else:
                 print(values[i], end=', ')
 except OSError:
-    print("Invalid input")
+    from sys import stderr
+    print("Invalid input", file=stderr)
