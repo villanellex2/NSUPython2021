@@ -29,7 +29,7 @@ isFound = False
 while True:
     response = requests.get(request)
 
-    if response is not None:
+    if response.status_code == 200:
         html = bs4.BeautifulSoup(response.text, "html.parser")
         bodyContent = html.select("#mw-content-text")
         # поскольку критерий "философости" статьи нам не дан я придумала своё нелепое условие
@@ -67,3 +67,6 @@ while True:
         else:
             isFound = False
             time.sleep(1.5)
+    else:
+        import stderr
+        print("Status code = " + str(request.status_code), file=stderr)
