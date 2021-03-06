@@ -26,7 +26,7 @@ else:
 def garble(text: str) -> str:
     return ''.join(sorted(text) if args.sort else sample(text, len(text)))
 
-tokens = re.findall(r"\w+|[^\w]", data)
+tokens = re.findall(r"[^\d\W]+|[\d\W]", data)
 for t in tokens:
     if len(t) > 3 and t.isalpha():
         print(f"{t[0]}{garble(t[1:-1])}{t[-1]}", end='')
