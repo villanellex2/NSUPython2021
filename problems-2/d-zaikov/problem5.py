@@ -17,12 +17,11 @@ def primes_list_sieve(n):
             
             
 if __name__ == '__main__':
-    print('Write upper bound for primes list (an integer).')
     try:
-        n = int(input())
+        n = int(input('Write upper bound for primes list (an integer).'))
     except ValueError as e:
         print('Error: the entered string is not an integer.\n', file=sys.stderr)
-        print('--------More info--------')
+        print('--------More info--------', file=sys.stderr)
         print(e, file=sys.stderr)
         exit(1)
     except Exception as e:
