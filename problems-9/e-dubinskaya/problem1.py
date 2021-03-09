@@ -10,7 +10,6 @@ class Timer:
     def __exit__(self, type, value, traceback):
         self.finish_time = time.time()
         print("Elapsed time: " + str((self.finish_time - self.start_time) * 1000) + " msecs.")
-        return self.finish_time - self.start_time
 
 
 if __name__ == "__main__":
@@ -19,6 +18,6 @@ if __name__ == "__main__":
 
     with Timer():
         b = 1
-        for i in range(1000, 8000):
+        for i in range(1000, 800000):
             b *= i + 10
             b /= i - 19
