@@ -1,5 +1,5 @@
 from sys import stderr
-
+import copy
 
 class Table():
 	"""Simple table realization"""
@@ -38,13 +38,13 @@ class Table():
 	def tail(self, num):
 		if len(self.__table) < num:
 			raise ValueError("Num higher then size of table")
-		return Table(self.__table[-num:])
+		return Table(copy.deepcopy(self.__table[-num:]))
 
 
 	def head(self, num):
 		if len(self.__table) < num:
 			raise ValueError("Num higher then size of table")
-		return Table(self.__table[:num])
+		return Table(copy.deepcopy(self.__table[:num]))
 
 
 	def get_row(self, index):
@@ -52,15 +52,16 @@ class Table():
 
 
 	def merge_by_rows(self, table):
-		return Table(self.__table + table.__table)
+		return Table(copy.deepcopy(self.__table) + copy.deepcopy(table.__table))
 
 
 	def merge_by_columns(self, table):
-		new_rows = self.__table.copy()
-		while (len(table.__table) > len(new_rows)):
+		new_rows = copy.deepcopy(self.__table)
+		new_second_table = copy.deepcopy(table.__table)
+		while (len(new_second_table) > len(new_rows)):
 			new_rows.append([0] * self.__columns_num)
-		for i in range(len(table.__table)):
-			new_rows[i] += table.__table[i]
+		for i in range(len(new_second_table)):
+			new_rows[i] += new_second_table[i]
 		return Table(new_rows)
 		
 
@@ -71,7 +72,7 @@ class Table():
 
 	def get_columns(self, columns_indexes):
 		new_rows = []
-		for row in self.__table:
+		for row in copy.deepcopy(self.__table):
 			new_row = []
 			for i in columns_indexes:
 				new_row.append(row[i])

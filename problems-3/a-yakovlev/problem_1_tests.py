@@ -28,3 +28,7 @@ print(t1.merge_by_rows(t2))
 
 print("Merge t1 with t2 by columns")
 print(t1.merge_by_columns(t2))
+
+print(t1)
+print("============================================================")
+print(t2)
