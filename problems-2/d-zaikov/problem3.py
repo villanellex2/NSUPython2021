@@ -39,7 +39,7 @@ except PermissionError as e:
     print(e, file=sys.stderr)
     exit(1)
 except Exception as e:
-    print('Error: some error occured while trying to scan directory.\n', file=sys.stderr)
+    print('Error: some error occurred while trying to scan the directory.\n', file=sys.stderr)
     print('--------More info--------', file=sys.stderr)
     print(e, file=sys.stderr)
     exit(1)
