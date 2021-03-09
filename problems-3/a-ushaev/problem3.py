@@ -14,7 +14,7 @@ class Vector():
         return str(self._components)
 
     def __repr__(self):
-        return str(self._components)
+        return f'Vector({self._components})'
 
     def __len__(self):
         return len(self._components)
