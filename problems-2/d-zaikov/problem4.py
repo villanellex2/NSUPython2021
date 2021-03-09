@@ -8,10 +8,9 @@ def find_seq(seq, path):
     cnt = 0
     pos_list = []
     
-    if not os.path.exists(path):
-        raise FileNotFoundError
-        return cnt, pos_list
-    if not os.path.isfile(path):
+    #Оставил, так как open выдает PermissionError при чтении директории
+    #(на windows)
+    if os.path.isdir(path):
         raise IsADirectoryError
         return cnt, pos_list
     
@@ -60,6 +59,8 @@ if __name__ == '__main__':
         print("Permission denied.",
                file=sys.stderr)
         exit(1)
+    except Exception as e:
+        print(e, file=sys.stderr)
     print(f'Found {cnt} results.')
     print(f'Positions: ', end='')
     for p in posl:
