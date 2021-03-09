@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import unittest
 from problem5 import primes_list
 
