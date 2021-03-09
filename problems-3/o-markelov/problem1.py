@@ -12,8 +12,8 @@ class Table:
         try:
             self._matrix = [*map(list, matrix)] if matrix is not None else None
             self._normalize_lens()
-        except (TypeError, ValueError):
-            raise ValueError('"matrix" must be of "Iterable[Iterable]" type') from None
+        except (TypeError, ValueError) as e:
+            raise ValueError('"matrix" must be of "Iterable[Iterable]" type') from e
 
     def _normalize_lens(self):
         if self._matrix is None:
@@ -47,8 +47,8 @@ class Table:
                 raise ValueError('"n" must be positive')
 
             return self._matrix[:n]
-        except TypeError:
-            raise ValueError('"n" must be of "int" type') from None
+        except TypeError as e:
+            raise ValueError('"n" must be of "int" type') from e
 
     def tail(self, n=3):
         if self._matrix is None:
@@ -59,24 +59,24 @@ class Table:
                 raise ValueError('"n" must be positive')
 
             return self._matrix[-n:]
-        except TypeError:
-            raise ValueError('"n" must be of "int" type') from None
+        except TypeError as e:
+            raise ValueError('"n" must be of "int" type') from e
 
     def filtered_rows(self, row_ids):
         try:
             return [self._matrix[row_id] for row_id in row_ids]
-        except IndexError:
-            raise ValueError('"row_ids" contain invalid ids') from None
-        except TypeError:
-            raise ValueError('"row_ids" must be of "Iterable[int]" type') from None
+        except IndexError as e:
+            raise ValueError('"row_ids" contain invalid ids') from e
+        except TypeError as e:
+            raise ValueError('"row_ids" must be of "Iterable[int]" type') from e
 
     def filtered_columns(self, column_ids):
         try:
             return [[row[column_id] for row in self._matrix] for column_id in column_ids]
-        except IndexError:
-            raise ValueError('"column_ids" contain invalid ids') from None
-        except TypeError:
-            raise ValueError('"column_ids" must be of "Iterable[int]" type') from None
+        except IndexError as e:
+            raise ValueError('"column_ids" contain invalid ids') from e
+        except TypeError as e:
+            raise ValueError('"column_ids" must be of "Iterable[int]" type') from e
 
     def append_row(self, row):
         if self._matrix is None:
@@ -85,8 +85,8 @@ class Table:
         try:
             self._matrix.append(copy.deepcopy(list(row)))
             self._normalize_lens()
-        except TypeError:
-            raise ValueError('"row" must be of "Iterable" type') from None
+        except TypeError as e:
+            raise ValueError('"row" must be of "Iterable" type') from e
 
     def append_column(self, column):
         if self._matrix is None:
@@ -104,8 +104,8 @@ class Table:
 
             for i, row in enumerate(self._matrix):
                 row.append(column_copy[i])
-        except TypeError:
-            raise ValueError('"column" must be of "Iterable" type') from None
+        except TypeError as e:
+            raise ValueError('"column" must be of "Iterable" type') from e
 
     def __repr__(self):
         return repr(self._matrix)
