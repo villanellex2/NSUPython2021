@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import sys
 from random import sample
 
 parser = argparse.ArgumentParser()
@@ -16,10 +17,10 @@ elif args.file:
         with open(args.file, 'r', encoding='utf8') as file:
             text = file.read()
     except OSError as e:
-        print(str(e))
+        sys.stderr.write(str(e))
         exit()
 else:
-    print('You must provide either some text or some file')
+    sys.stderr.write('You must provide either some text or some file')
     exit()
 
 text_parts = []
