@@ -10,7 +10,7 @@ def to_collatz_list(a: int) -> list:
         res.append(a)
     return res
 
-
+print("Enter integer value: ", end="")
 inp = input()
 while not inp.isdigit():
     print("incorrect input, enter integer value", end=": ")
