@@ -11,22 +11,7 @@ parser.add_option("-p", "--path", dest="dirpath",
 (options, args) = parser.parse_args()
 
 if options.dirpath is None:
-    print("Directory not specified, use -p to write path.",
-           file=sys.stderr)
-    exit()
-    
-if not os.path.exists(options.dirpath):
-    print('Directory not found', 
-           file=sys.stderr)
-    exit(1)
-    
-if not os.path.isdir(options.dirpath):
-    print("Path is not a directory.",
-           file=sys.stderr)
-    exit(1)
-
-if not os.access(options.dirpath, os.X_OK | os.R_OK):
-    print("Permission denied.",
+    print("Error: Directory for scan not specified, use -p to write path.",
            file=sys.stderr)
     exit(1)
 
@@ -38,5 +23,23 @@ try:
                        key=(lambda x: (-os.stat(x).st_size, x)))
     print([os.path.split(x)[-1] for x in ls])
     
-except OSError as e:
+except FileNotFoundError as e:
+    print('Error: the entered directory for scan not found.\n', file=sys.stderr)
+    print('--------More info--------', file=sys.stderr)
     print(e, file=sys.stderr)
+    exit(1)
+except NotADirectoryError as e:
+    print('Error: the entered path for scan is not a directory.\n', file=sys.stderr)
+    print('--------More info--------', file=sys.stderr)
+    print(e, file=sys.stderr)
+    exit(1)
+except PermissionError as e:
+    print('Error: you have not permission to scan the entered directory.\n', file=sys.stderr)
+    print('--------More info--------', file=sys.stderr)
+    print(e, file=sys.stderr)
+    exit(1)
+except Exception as e:
+    print('Error: some error occured while trying to scan directory.\n', file=sys.stderr)
+    print('--------More info--------', file=sys.stderr)
+    print(e, file=sys.stderr)
+    exit(1)
