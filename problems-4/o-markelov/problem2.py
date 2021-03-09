@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import sys
 
 parser = argparse.ArgumentParser()
 parser.add_argument("file", help="file to translate")
@@ -10,11 +11,11 @@ parser.add_argument("-d", "--delete", help="symbols to delete")
 args = parser.parse_args()
 
 if len(args.old_symbols) != len(args.new_symbols):
-    print('"old_symbols" and "new_symbols" have different lengths')
+    sys.stderr.write('"old_symbols" and "new_symbols" have different lengths')
     exit()
 
 if len(args.old_symbols) != len(set(args.old_symbols)):
-    print('"old_symbols" must not contain duplicate symbols')
+    sys.stderr.write('"old_symbols" must not contain duplicate symbols')
     exit()
 
 translate_table = dict(zip(args.old_symbols, args.new_symbols))
@@ -36,4 +37,4 @@ try:
 
             print(symbol, end='')
 except OSError as e:
-    print(str(e))
+    sys.stderr.write(str(e))
