@@ -6,9 +6,10 @@ from bs4 import BeautifulSoup
 import sys
 import urllib
 import time
+import re
 
 end_url = 'https://en.wikipedia.org/wiki/Philosophy'
-random_article = 'https://en.wikipedia.org/wiki/Black_metal'
+random_article = 'https://en.wikipedia.org/wiki/Special:Random'
 
 parser = argparse.ArgumentParser(description='Wikipedia: Getting to Philosophy')
 parser.add_argument('-u', '--url', type=str, help='wiki article to start from')
@@ -18,6 +19,14 @@ if args.url:
     start_url = args.url
 else:
     start_url = random_article
+
+
+def remove_all_attrs_except(soup):
+    whitelist = ['a','p','ul','ol','li']
+    for tag in soup.find_all(True):
+        if tag.name not in whitelist:
+            tag.decompose()
+    return soup
 
 
 def get_first_link(url: str) -> str:
@@ -38,15 +47,26 @@ def get_first_link(url: str) -> str:
     # Причем ссылки на внешние источники имеют класс "external text", что облегчает задачу 
     
     # Удаляем все блоки с "мусором" - картинки, содержание и тд., остаются только вышеперечисленные тэги
-    for div in article_content.find_all(['div', 'style', 'table', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'sup']):
-        div.decompose()
+    soup = remove_all_attrs_except(article_content)
 
     for a in article_content.find_all('a'):
         if a.has_attr("class"):
-            continue
+            if "mw-redirect" not in a.get("class"):
+                continue
         if 'File:' in a.get('href'):
             continue
         if 'Help:' in a.get('href'):
+            continue
+        
+        parent = a.parent
+        in_parentheses = False
+
+        for p in re.findall('\((.*?)\)', str(parent)):
+            if str(a) in p:
+                in_parentheses = True
+                break
+
+        if in_parentheses:
             continue
             
         first_article_url = a.get('href')
@@ -58,7 +78,7 @@ def get_first_link(url: str) -> str:
 
 
 def getting_to_philosophy(url: str) -> None:
-    history = []
+    history = set()
     cycle = False
     found = False
     no_links = False
@@ -73,7 +93,7 @@ def getting_to_philosophy(url: str) -> None:
         elif url == end_url:
             found = True
         else:
-            history.append(url)
+            history.add(url)
         time.sleep(1)
         
     if cycle:
