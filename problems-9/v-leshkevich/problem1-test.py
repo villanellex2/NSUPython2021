@@ -9,12 +9,13 @@ def do_some_long_stuff(seconds):
     sleep(seconds)
 
 
-class TestTimerClass(unittest.TestCase):
+class TestTimer(unittest.TestCase):
     def test_time(self):
         timer = Timer()
-        with timer:
-            do_some_long_stuff(1)
-        self.assertEqual(timer.exec_time, 1000)
+        seconds = 1
+        with timer.timer():
+            do_some_long_stuff(seconds)
+        self.assertEqual(timer.exec_time, seconds * 1000)
 
 
 if __name__ == '__main__':
