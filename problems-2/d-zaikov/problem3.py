@@ -30,6 +30,6 @@ try:
                        
     print([os.path.split(x)[-1] for x in ls])
 except Exception e:
-    print('Error while calling "os.stat" for a file in directory:', file=sys.stderr)
+    print('Error while calling "os.stat" for a file in the directory:', file=sys.stderr)
     print(e, file=sys.stderr)
     exit(1)
