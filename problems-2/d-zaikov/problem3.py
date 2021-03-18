@@ -18,7 +18,7 @@ if options.dirpath is None:
 
 try:
     dir_l = os.listdir(options.dirpath)
-except Exception e:
+except Exception as e:
     print('Error while calling "os.listdir" for directory', file=sys.stderr)
     print(e, file=sys.stderr)
     exit(1)
@@ -29,7 +29,7 @@ try:
                        key=(lambda x: (-os.stat(x).st_size, x)))
                        
     print([os.path.split(x)[-1] for x in ls])
-except Exception e:
+except Exception as e:
     print('Error while calling "os.stat" for a file in the directory:', file=sys.stderr)
     print(e, file=sys.stderr)
     exit(1)
