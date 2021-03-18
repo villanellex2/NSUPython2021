@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import sys
 import os
-from optparse import OptionParser
+from argparse import ArgumentParser
 
 def find_seq(seq, path):
     cnt = 0
@@ -30,14 +30,12 @@ def find_seq(seq, path):
     return cnt, pos_list
 
 if __name__ == '__main__':
-    parser = OptionParser()
-    parser.add_option("-p", "--path", dest="path",
+    parser = ArgumentParser()
+    parser.add_argument("-p", "--path", dest="path", default='pi.txt',
                         help="Path to pi.txt.")
                         
-    (options, args) = parser.parse_args()
+    options = parser.parse_args()
     path = options.path
-    if path is None:
-        path = "pi.txt"
         
     print('Enter sequence to search for.')
     seq = input()
