@@ -33,5 +33,3 @@ except Exception e:
     print('Error while calling "os.stat" for a file in directory:', file=sys.stderr)
     print(e, file=sys.stderr)
     exit(1)
-    
- 
