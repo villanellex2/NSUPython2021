@@ -17,29 +17,21 @@ if options.dirpath is None:
 
 
 try:
+    dir_l = os.listdir(options.dirpath)
+except Exception e:
+    print('Error while calling "os.listdir" for directory', file=sys.stderr)
+    print(e, file=sys.stderr)
+    exit(1)
+try:
     ls = sorted([y for y in [os.path.join(options.dirpath, x) 
-                       for x in os.listdir(options.dirpath)]
+                       for x in dir_l]
                    if os.path.isfile(y)], 
                        key=(lambda x: (-os.stat(x).st_size, x)))
+                       
     print([os.path.split(x)[-1] for x in ls])
+except Exception e:
+    print('Error while calling "os.stat" for a file in directory:', file=sys.stderr)
+    print(e, file=sys.stderr)
+    exit(1)
     
-except FileNotFoundError as e:
-    print('Error: the entered directory for scan not found.\n', file=sys.stderr)
-    print('--------More info--------', file=sys.stderr)
-    print(e, file=sys.stderr)
-    exit(1)
-except NotADirectoryError as e:
-    print('Error: the entered path for scan is not a directory.\n', file=sys.stderr)
-    print('--------More info--------', file=sys.stderr)
-    print(e, file=sys.stderr)
-    exit(1)
-except PermissionError as e:
-    print('Error: you have not permission to scan the entered directory.\n', file=sys.stderr)
-    print('--------More info--------', file=sys.stderr)
-    print(e, file=sys.stderr)
-    exit(1)
-except Exception as e:
-    print('Error: some error occured while trying to scan directory.\n', file=sys.stderr)
-    print('--------More info--------', file=sys.stderr)
-    print(e, file=sys.stderr)
-    exit(1)
+ 
