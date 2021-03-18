@@ -36,5 +36,7 @@ if __name__ == '__main__':
                 print(tr(s, options.toreplace, options.replace, options.delete), end='')
             except Exception as e:
                 print('Error while calling "tr()":\n' + str(e), file=sys.stderr)
+                exit(1)
     except Exception as e:
         print('Error while calling "open()":\n' + str(e), file=sys.stderr)
+        exit(1)
