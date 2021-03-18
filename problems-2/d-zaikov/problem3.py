@@ -2,13 +2,13 @@
 
 import sys
 import os
-from optparse import OptionParser
+from argparse import ArgumentParser
 
-parser = OptionParser()
-parser.add_option("-p", "--path", dest="dirpath",
+parser = ArgumentParser()
+parser.add_argument("-p", "--path", dest="dirpath",
                     help="Scan directory by path.")
                     
-(options, args) = parser.parse_args()
+options = parser.parse_args()
 
 if options.dirpath is None:
     print("Error: Directory for scan not specified, use -p to write path.",
