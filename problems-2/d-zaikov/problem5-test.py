@@ -12,7 +12,10 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(primes_list_list_expression(12), [2,3,5,7,11])
     
     def test_pos11_list_expression(self):
-        self.assertEqual(primes_list_list_expression(12), [2,3,5,7,11])
+        self.assertEqual(primes_list_list_expression(11), [2,3,5,7,11])
+        
+    def test_pos13_list_expression(self):
+        self.assertEqual(primes_list_list_expression(13), [2,3,5,7,11,13])
 
     def test_exception_type_error_list_expression(self):
         self.assertRaises(TypeError, primes_list_list_expression, '1111')
@@ -24,7 +27,10 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(primes_list_sieve(12), [2,3,5,7,11])
     
     def test_pos11_sieve(self):
-        self.assertEqual(primes_list_sieve(12), [2,3,5,7,11])
+        self.assertEqual(primes_list_sieve(11), [2,3,5,7,11])
+        
+    def test_pos13_sieve(self):
+        self.assertEqual(primes_list_sieve(13), [2,3,5,7,11,13])
 
     def test_exception_type_error_sieve(self):
         self.assertRaises(TypeError, primes_list_sieve, '1111')
