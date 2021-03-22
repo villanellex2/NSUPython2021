@@ -21,14 +21,14 @@ try:
 
 except NotADirectoryError as e:
 	print('You specified not a directory', file=stderr)
-	print(e)
+	print(e, file=stderr)
 except FileNotFoundError as e:
 	print("Can't find the specified file" , file=stderr)
-	print(e)
+	print(e, file=stderr)
 except PermissionError as e:
 	print("You have no Permission to use the specified path", file=stderr)
-	print(e)
+	print(e, file=stderr)
 except Exception as e:
 	print("Here's some error while listing specified directory", file=stderr)
-	print(e)
+	print(e, file=stderr)
 
