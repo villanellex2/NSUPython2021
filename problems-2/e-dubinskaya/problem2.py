@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # путь до словаря из примера: res/en_dictionary.txt
 from sys import stderr
+
+
 def add_to_latin_dict(latin_dict: dict, read_str: str):
     read_str = read_str.replace(" ", "")
     read_str = read_str.replace("\n", "")
@@ -8,7 +10,7 @@ def add_to_latin_dict(latin_dict: dict, read_str: str):
     word = word_meaning[0]
     meaning = word_meaning[1].split(",")
     for i in range(len(meaning)):
-        if latin_dict.get(meaning[i]) != None:
+        if latin_dict.get(meaning[i]) is not None:
             latin_dict[meaning[i]].append(word)
         else:
             latin_dict[meaning[i]] = [word]
@@ -26,6 +28,7 @@ try:
         values = latin.get(key)
         size = len(values)
         for i in range(size):
+            if i == size - 1:
                 print(values[i])
             else:
                 print(values[i], end=', ')
