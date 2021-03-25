@@ -32,8 +32,8 @@ while True:
     if response.status_code == 200:
         html = bs4.BeautifulSoup(response.text, "html.parser")
         bodyContent = html.select("#mw-content-text")
-        # поскольку критерий "философости" статьи нам не дан я придумала своё нелепое условие
-        if bodyContent[0].text.find("философия") != -1 or bodyContent[0].text.find("философски") != -1:
+
+        if html.find('h1', class_="firstHeading").text == "Философия":
             print("Статья о философии!")
             exit()
 
@@ -41,10 +41,16 @@ while True:
 
         images = html.find_all('div', class_="thumb tright")
         navigation = html.find('div', class_="navbox")
+        hatnote = html.find('div', class_="hatnote noprint dabhide")
+        table = html.find('table', class_="plainlinks metadata ambox ambox-content")
         no_wiki_links = html.find_all('span', class_="citation no-wikidata")
         incorrect_links = []
         if navigation is not None:
             incorrect_links = incorrect_links + list(navigation.find_all('a', href=True))
+        if hatnote is not None:
+            incorrect_links = incorrect_links + list(hatnote.find_all('a', href=True))
+        if table is not None:
+            incorrect_links = incorrect_links + list(table.find_all('a', href=True))
         for div in list(images)+list(no_wiki_links):
             incorrect_links = incorrect_links + (list(div.find_all('a', href=True)))
 
