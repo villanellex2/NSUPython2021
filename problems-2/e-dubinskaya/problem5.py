@@ -1,33 +1,21 @@
 #!/usr/bin/env python3
 
-def seive(arr: list, num: int):
-    size = len(arr)
-    i = 0
-    while i < size:
-        if arr[i] != num and arr[i] % num == 0:
-            arr.remove(arr[i])
-            size -= 1
-        else:
-            #print(str(arr[i]) + "%" + str(num) + "==" + str(arr[i]%num))
-            i = i + 1
+from math import sqrt
 
 
-def main_cycle(arr: list) -> list:
-    size = len(arr)
-    i = 0
-    while i < size:
-        seive(arr, arr[i])
-        i = i + 1
-        size = len(arr)
-    return arr
+def get_primitives(x: int) -> list:
+    return [
+        i for i in range(2, x+1)
+        if all(i % j != 0
+               for j in range(2, i-1))]
 
 
-print("Enter number: ", end="")
-inp = input()
-while not inp.isdigit():
-    print("incorrect input, enter integer value", end=": ")
+if __name__ == '__main__':
+    print("Enter number: ", end="")
     inp = input()
-inp = int(inp)
+    while not inp.isdigit():
+        print("incorrect input, enter integer value", end=": ")
+        inp = input()
+    inp = int(inp)
+    print(get_primitives(inp))
 
-print(main_cycle(list(range(2, inp + 1))))
-#print(len(main_cycle(list(range(2, inp + 1)))))
