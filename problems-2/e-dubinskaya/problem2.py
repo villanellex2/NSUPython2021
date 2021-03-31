@@ -16,21 +16,22 @@ def add_to_latin_dict(latin_dict: dict, read_str: str):
             latin_dict[meaning[i]] = [word]
 
 
-print("Enter path to dictionary file: ", end="")
-fileName = input()
-latin = {}
-try:
-    f = open(fileName, 'r')
-    for line in f:
+def createDictionary(inp: str) -> str:
+    latin = {}
+    res = ""
+    for line in inp.split("\n"):
         add_to_latin_dict(latin, line)
     for key in sorted(latin):
-        print(key, end=' - ')
         values = latin.get(key)
-        size = len(values)
-        for i in range(size):
-            if i == size - 1:
-                print(values[i])
-            else:
-                print(values[i], end=', ')
-except OSError as e:
-    print(e, file=stderr)
+        res += key + " - " + ", ".join(values) + "\n"
+    return res
+
+
+if __name__ == "__main__":
+    print("Enter path to dictionary file: ", end="")
+    fileName = input()
+    try:
+        f = open(fileName, 'r')
+        print(createDictionary(f.read()))
+    except OSError as e:
+        print(e, file=stderr)
