@@ -10,7 +10,7 @@ class Timer:
     def __exit__(self, type, value, traceback):
         self.finish_time = time.time()
         print("Elapsed time: " + str((self.finish_time - self.start_time) * 1000) + " msecs.")
-        return True
+        return False
 
 
 if __name__ == "__main__":
