@@ -8,7 +8,7 @@ import urllib
 import time
 import re
 
-end_url = 'https://en.wikipedia.org/wiki/Philosophy'
+end_urls = ['https://en.wikipedia.org/wiki/Philosophy', 'https://ru.wikipedia.org/wiki/%D0%A4%D0%B8%D0%BB%D0%BE%D1%81%D0%BE%D1%84%D0%B8%D1%8F']
 random_article = 'https://en.wikipedia.org/wiki/Special:Random'
 
 parser = argparse.ArgumentParser(description='Wikipedia: Getting to Philosophy')
@@ -61,7 +61,8 @@ def get_first_link(url: str) -> str:
         parent = a.parent
         in_parentheses = False
 
-        for p in re.findall('\((.*?)\)', str(parent)):
+        # \((.*)\)
+        for p in re.findall('\(([^)]+)', str(parent)):
             if str(a) in p:
                 in_parentheses = True
                 break
@@ -73,7 +74,7 @@ def get_first_link(url: str) -> str:
         break
     
     # Строим полный url
-    first_article_url = urllib.parse.urljoin('https://en.wikipedia.org/', first_article_url)
+    first_article_url = urllib.parse.urljoin(url, first_article_url)
     return first_article_url
 
 
@@ -85,12 +86,12 @@ def getting_to_philosophy(url: str) -> None:
 
     while not cycle and not found and not no_links:
         url = get_first_link(url)
-        print(url)
+        print(urllib.parse.unquote(url))
         if url == None:
             no_links = True
         elif url in history:
             cycle = True
-        elif url == end_url:
+        elif url in end_urls:
             found = True
         else:
             history.add(url)
