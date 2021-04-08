@@ -41,29 +41,36 @@ while True:
 
         images = html.find_all('div', class_="thumb tright")
         navigation = html.find('div', class_="navbox")
-        hatnote = html.find('div', class_="hatnote noprint dabhide")
+        infobox = html.find_all('table', class_="infobox")
+        hatnote = html.find_all('div', class_="hatnote noprint dabhide")
+        hatnote2 = html.find_all('div', class_="hatnote dabhide")
+        dablink = html.find_all('div', class_="dablink")
         metadata = html.find('table', class_="plainlinks metadata ambox ambox-content")
         nav_tables = html.find_all('table')
         no_wiki_links = html.find_all('span', class_="citation no-wikidata")
         incorrect_links = []
-        if navigation is not None:
-            incorrect_links = incorrect_links + list(navigation.find_all('a', href=True))
-        if hatnote is not None:
-            incorrect_links = incorrect_links + list(hatnote.find_all('a', href=True))
-        if metadata is not None:
-            incorrect_links = incorrect_links + list(metadata.find_all('a', href=True))
-        for div in list(images)+list(no_wiki_links):
-            incorrect_links = incorrect_links + list(div.find_all('a', href=True))
+
         for table in nav_tables:
-            if table.has_attr("class") and str(table.get("class")).find("navbox") != -1:
-                incorrect_links = incorrect_links + list(table.find_all('a', href=True))
+            if table.decomposed is not False and table.has_attr("class") and str(table.get("class")).find("navbox") != -1:
+                table.decompose()
+
+        for div in list(hatnote) + list(infobox) + list(hatnote2) + list(dablink):
+            div.decompose()
+        for div in list(images) + list(no_wiki_links):
+            div.decompose()
+        if navigation is not None:
+            navigation.decompose()
+        if metadata is not None:
+            metadata.decompose()
         for link in html.find_all('a', href=True):
-            if str(link['href']).find("redlink=1") == -1 and str(link).find("title") != -1 \
-                    and str(link).find("class=\"") == -1 and not any(x == link for x in incorrect_links):
+            if str(link['href']).find("redlink=1") == -1 and str(link).find("title") != -1:
                 if dict.get(str(link['href'])) is not None:
-                    print("Oh no, links are looped, theorem doesn't work =(.")
+                    print("Oh no, links are looped, theorem doesn't work =(, next link is " + link['title'])
                     exit()
                 request = make_link(str(link['href']))
+                parent = link.parent
+                while parent is not None:
+                    parent = parent.parent
                 link_title = str(link['title'])
                 isFound = True
                 print("Follow the link \"" + link_title + "\": " + request)
@@ -78,4 +85,5 @@ while True:
             time.sleep(1.5)
     else:
         import stderr
+
         print("Status code = " + str(request.status_code), file=stderr)
