@@ -132,7 +132,7 @@ def shift_rects(rects, dx, dy):
 
 def main():
     parser = ArgumentParser()
-    parser.add_argument('cfg_path', nargs='?', help="Path to file with config .life/.lif extensions.", default=None)
+    parser.add_argument('cfg_path', nargs='?', help="Path to file with Life 1.06 config .life/.lif extensions.", default=None)
     options = parser.parse_args()
     global CURR_SPEED
     screen, clock = init()
