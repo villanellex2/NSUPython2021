@@ -24,7 +24,7 @@ CURR_SPEED = 88
 FPS = 60
 
 
-def fill_rects(screen, pos_array, dx, dy):
+def draw_rects(screen, pos_array, dx, dy):
     for pos in pos_array:
         res = get_rect_corner(pos, dx, dy)
         pygame.draw.rect(screen, RECT_COLOR, pygame.Rect(res[0], res[1], *(CURR_CELL_SIZE, CURR_CELL_SIZE)))
@@ -59,6 +59,7 @@ def draw_grid(screen, dx, dy):
         )
 
 
+# get point on the field from the absolute rect pos
 def get_rect_corner(pos, dx, dy):
     return (
         pos[0] * CURR_CELL_SIZE - dx % CURR_CELL_SIZE,
@@ -66,7 +67,7 @@ def get_rect_corner(pos, dx, dy):
     )
 
 
-
+# get absolute rect position
 def get_rect_coord(pos, dx, dy):
     return (
         ((pos[0] + dx % CURR_CELL_SIZE) // CURR_CELL_SIZE),
@@ -74,7 +75,7 @@ def get_rect_coord(pos, dx, dy):
     )
 
 
-
+# game logic
 def update_life(rects):
     all_neighbors = {}
     for i in rects:
@@ -101,29 +102,30 @@ def update_life(rects):
     return rects
 
 
-def draw_help(screen, running):
+def draw_text(screen, running):
     FONT_SIZE = min(HEIGHT//20, WIDTH//40)
     font = pygame.font.SysFont('arial', FONT_SIZE)
-    help1 = font.render("SPACE to start simulation", False, FONT_COLOR)
-    help2 = font.render("R to restart", False, FONT_COLOR)
-    help3 = font.render("ARROW UP for increasing speed", False, FONT_COLOR)
-    help4 = font.render("ARROW DOWN for decreasing speed", False, FONT_COLOR)
-    help5 = font.render("MOUSEWHEEL for zooming", False, FONT_COLOR)
-    help6 = font.render("SPACE to pause simulation", False, FONT_COLOR)
-    
+
     if running:
-        running_text1 = font.render("RUN", False, RUNNING_COLOR)
-        screen.blit(help6, (20, HEIGHT - (FONT_SIZE + 5) * 1 - 5))
+        run = font.render("RUN", False, RUNNING_COLOR)
+        mes = font.render("SPACE to pause simulation", False, FONT_COLOR)
+        screen.blit(mes, (20, HEIGHT - (FONT_SIZE + 5) - 5))
     else:
-        running_text1 = font.render("RUN", False, NOT_RUNNIN_COLOR)
-        screen.blit(help1, (20, HEIGHT - (FONT_SIZE + 5) * 5 - 5))
-        screen.blit(help2, (20, HEIGHT - (FONT_SIZE + 5) * 4 - 5))
-        screen.blit(help3, (20, HEIGHT - (FONT_SIZE + 5) * 3 - 5))
-        screen.blit(help4, (20, HEIGHT - (FONT_SIZE + 5) * 2 - 5))
-        screen.blit(help5, (20, HEIGHT - (FONT_SIZE + 5) * 1 - 5))
-    screen.blit(running_text1, (WIDTH//2, 5))
+        mes1 = font.render("SPACE to start simulation", False, FONT_COLOR)
+        mes2 = font.render("R to restart", False, FONT_COLOR)
+        mes3 = font.render("ARROW UP for increasing speed", False, FONT_COLOR)
+        mes4 = font.render("ARROW DOWN for decreasing speed", False, FONT_COLOR)
+        mes5 = font.render("MOUSEWHEEL for zooming", False, FONT_COLOR)
+        run = font.render("RUN", False, NOT_RUNNIN_COLOR)
+        screen.blit(mes1, (20, HEIGHT - (FONT_SIZE + 5) * 5 - 5))
+        screen.blit(mes2, (20, HEIGHT - (FONT_SIZE + 5) * 4 - 5))
+        screen.blit(mes3, (20, HEIGHT - (FONT_SIZE + 5) * 3 - 5))
+        screen.blit(mes4, (20, HEIGHT - (FONT_SIZE + 5) * 2 - 5))
+        screen.blit(mes5, (20, HEIGHT - (FONT_SIZE + 5)     - 5))
 
+    screen.blit(run, (WIDTH//2, 5))
 
+#change rects absolute pos's when moving camera
 def shift_rects(rects, dx, dy):
     return set([(i - dx, j - dy) for i, j in rects])
 
@@ -137,9 +139,9 @@ def main():
     rects = set()
     running = False
     speed_counter = 0
-    holding_mouse = False
-    initial_mouse_pos = None
-    shifted = False
+    clicked = False
+    init_mouse_pos = None
+    moved = False
     grid_x, grid_dy = 0, 0
     if options.cfg_path != None:
         try:
@@ -186,8 +188,8 @@ def main():
                 CURR_CELL_SIZE = int(DEF_CELL_SIZE * ZOOM_RATIO)
             elif event.type == pygame.MOUSEBUTTONUP and (event.button == 1 or event.button == 3):
                 if event.button == 1:
-                    holding_mouse = False
-                if not shifted:
+                    clicked = False
+                if not moved:
                     pos = pygame.mouse.get_pos()
                     coord = get_rect_coord(pos, grid_x, grid_dy)
                     if event.button == 1 and coord in rects:
@@ -195,50 +197,46 @@ def main():
                     elif event.button == 1:
                         rects.add(coord)
                 else:
-                    shifted = False
+                    moved = False
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                holding_mouse = True
-                initial_mouse_pos = pygame.mouse.get_pos()
+                clicked = True
+                init_mouse_pos = pygame.mouse.get_pos()
             
             # user controls
             elif event.type == pygame.KEYDOWN:
                 global CURR_SPEED
-                if event.key == pygame.K_RETURN:
-                    update_life(rects)
                 if event.key == pygame.K_SPACE:
                     running = not running
                 if event.key == pygame.K_r:
                     rects = set()
-                if event.key == pygame.K_UP:
+                if event.key == pygame.K_UP and CURR_SPEED < 110:
                     CURR_SPEED += 2
-                    if CURR_SPEED > 110:
-                        CURR_SPEED = 110
-                if event.key == pygame.K_DOWN:
+                if event.key == pygame.K_DOWN and CURR_SPEED > 70:
                     CURR_SPEED -= 2
-                    if CURR_SPEED < 70:
-                        CURR_SPEED = 70
-        if holding_mouse:
+                    
+        if clicked:
             pos = pygame.mouse.get_pos()
-            dx, dy = initial_mouse_pos[0] - pos[0], initial_mouse_pos[1] - pos[1]
+            dx, dy = init_mouse_pos[0] - pos[0], init_mouse_pos[1] - pos[1]
             #if not click
             if abs(dx) > 5 or abs(dy) > 5:
-                shifted = True
-            if shifted:
+                moved = True
+            if moved:
                 shift = get_rect_coord((dx, dy), grid_x, grid_dy)
                 grid_x += dx
                 grid_dy += dy
                 rects = shift_rects(rects, shift[0], shift[1])
-                initial_mouse_pos = pos
+                init_mouse_pos = pos
 
         if running and speed_counter >= (1100 - (9 + CURR_SPEED / 110) * 110):
             speed_counter = 0
             update_life(rects)
+            
         speed_counter += 1
 
         screen.fill(FIELD_COLOR)
-        fill_rects(screen, rects, grid_x, grid_dy)
+        draw_rects(screen, rects, grid_x, grid_dy)
         draw_grid(screen, grid_x, grid_dy)
-        draw_help(screen, running)
+        draw_text(screen, running)
         pygame.display.flip()
         clock.tick(FPS)
 
