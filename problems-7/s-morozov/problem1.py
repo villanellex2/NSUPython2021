@@ -38,13 +38,13 @@ def find_text_in_parentheses(text):
     cur = ''
     depth = 0
     for ch in text:
-        if ch == ')':
+        if ch in ')）':
             depth -= 1
             if depth == 0:
                 cur += ch
                 res.append(cur)
                 cur = ''
-        elif ch == '(':
+        elif ch in '(（':
             depth += 1
         if depth > 0:
             cur += ch
