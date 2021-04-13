@@ -1,0 +1,4 @@
+requests
+lxml
+tldextract
+urllib3
