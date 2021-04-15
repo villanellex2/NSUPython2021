@@ -2,6 +2,8 @@ import random
 
 import pygame
 
+from modules.colors import Colors
+
 
 class View:
     def __init__(self, model):
@@ -9,12 +11,12 @@ class View:
         self.FONT_COLOR = (255, 255, 255)
         self.FIELD_COLOR = (50, 50, 50)
         self.RECT_COLOR = (0, 255, 255)
-        self.COLORS = [(255, 100, 180), (240, 0, 255), (127, 127, 127), (255, 0, 230), (0, 0, 100), (210, 150, 75),
-                       (255, 200, 0), (0, 255, 255), (200, 200, 200), (235, 245, 255),'paleturquoise3']
-        self.NOT_RUNNING_COLOR = (255,100,10)
+        self.colors = Colors()
+        self.NOT_RUNNING_COLOR = (255, 100, 10)
         self.RUNNING_COLOR = (0, 150, 0)
         self.__START_MESSAGE = "SPACE to start/pause simulation"
         self.__CLEAR_FIELD = "C to clear field"
+        self.__SWITCH_COLOR = "S to switch/choose color"
         self.__ARROW_UP = "ARROW UP for increasing speed"
         self.__ARROW_DOWN = "ARROW DOWN for decreasing speed"
         self.__MOUSE = "MOUSEWHEEL for zooming"
@@ -24,29 +26,32 @@ class View:
         self.model = model
         self.screen, self.clock = self.init()
         self.tick = 40
+        self.switch_color = True
         self.cur_tick = 0
-        self.cur_color = 0
+        self.cur_color = 'azure'
 
     def draw_cells(self, dx, dy):
-        if self.cur_tick > 120 - self.model.CURR_SPEED:
-            self.cur_color = random.randint(0, len(self.COLORS)-1)
-            self.cur_tick = 0
-        else:
-            self.cur_tick += 1
+        if self.switch_color:
+            if self.cur_tick > 140 - self.model.CURR_SPEED:
+                self.cur_color = random.choice(list(self.colors.DICT_COLORS.keys()))
+                self.cur_tick = 0
+            else:
+                self.cur_tick += 1
         for pos in self.model.cells:
             res = self.model.get_cell_corner(pos, dx, dy)
-            pygame.draw.rect(self.screen, self.COLORS[self.cur_color],
+            pygame.draw.rect(self.screen, self.cur_color,
                              pygame.Rect(res[0], res[1], *(self.model.CURR_CELL_SIZE, self.model.CURR_CELL_SIZE)))
 
     def draw_messages(self):
         FONT_SIZE = min(self.model.HEIGHT // 30, self.model.WIDTH // 40)
         font = pygame.font.SysFont('arial', FONT_SIZE)
         font.set_bold(True)
+        c = font.render(self.__SWITCH_COLOR, False, self.FONT_COLOR)
         if self.model.is_running:
             run = font.render(self.__RUN, False, self.RUNNING_COLOR)
             mes = font.render(self.__STOP, False, self.FONT_COLOR)
             self.screen.blit(mes, (self.model.WIDTH / 2.5, self.model.HEIGHT - (FONT_SIZE + 5) - 5))
-
+            self.screen.blit(c, (self.model.WIDTH / 1.3, self.model.HEIGHT - (FONT_SIZE + 5) - 5))
         else:
             start = font.render(self.__START_MESSAGE, False, self.FONT_COLOR)
             restart = font.render(self.__CLEAR_FIELD, False, self.FONT_COLOR)
@@ -54,10 +59,10 @@ class View:
             speed_down = font.render(self.__ARROW_DOWN, False, self.FONT_COLOR)
             zoom = font.render(self.__MOUSE, False, self.FONT_COLOR)
             run = font.render(self.__PAUSE, False, self.NOT_RUNNING_COLOR)
-            messages = [start, restart, speed_up, speed_down, zoom]
+            messages = [start, restart, speed_up, speed_down, zoom,c]
             i = len(messages)
             for m in messages:
-                self.print_message(m, (self.model.WIDTH / 1.75, self.model.HEIGHT - (FONT_SIZE + 5) * i - 5))
+                self.print_message(m, (self.model.WIDTH / 1.5, self.model.HEIGHT - (FONT_SIZE + 5) * i - 5))
                 i -= 1
         self.screen.blit(run, (20, self.model.HEIGHT - (FONT_SIZE + 5) - 5))
 

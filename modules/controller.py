@@ -45,6 +45,8 @@ class Controller:
                         self.model.is_running = not self.model.is_running
                     if event.key == pygame.K_c:
                         self.model.cells = set()
+                    if event.key == pygame.K_s:
+                        self.model.view.switch_color = not self.model.view.switch_color
                     if event.key == pygame.K_UP and self.model.CURR_SPEED < 110:
                         self.model.CURR_SPEED += 2
                     if event.key == pygame.K_DOWN and self.model.CURR_SPEED > 70:

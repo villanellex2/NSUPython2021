@@ -11,6 +11,8 @@ def main():
     parser = ArgumentParser()
     parser.add_argument('cfg_path', nargs='?', help="Path to file with Life 1.06 config",
                         default=None)
+    parser.add_argument('color', nargs='?', help="Initial color",
+                        default=None)
     options = parser.parse_args()
     rects = set()
     if options.cfg_path is not None:
@@ -27,6 +29,9 @@ def main():
             sys.exit()
     model = Model(rects)
     view = View(model)
+    if options.color is not None:
+        view.cur_color = options.color
+        view.switch_color = False
     model.view = view
     controller = Controller(model)
     controller.run()
