@@ -1,3 +1,5 @@
+#!/usr/bin/env python3.7
+
 import pygame as pg
 import os
 from os import listdir
