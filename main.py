@@ -9,9 +9,9 @@ from modules.view import View
 
 def main():
     parser = ArgumentParser()
-    parser.add_argument('cfg_path', nargs='?', help="Path to file with Life 1.06 config",
+    parser.add_argument('--cfg_path', nargs='?', help="Path to file with Life 1.06 config",
                         default=None)
-    parser.add_argument('color', nargs='?', help="Initial color",
+    parser.add_argument('--color', nargs='?', help="Initial color",
                         default=None)
     options = parser.parse_args()
     rects = set()
